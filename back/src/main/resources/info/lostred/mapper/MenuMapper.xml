@@ -41,6 +41,12 @@
         where menu_id = #{menuId}
     </delete>
 
+    <select id="selectByParentId" resultType="menu">
+        select *
+        from t_menu
+        where parent_id = #{parentId}
+    </select>
+
     <select id="selectAll" resultType="menu">
         select *
         from t_menu

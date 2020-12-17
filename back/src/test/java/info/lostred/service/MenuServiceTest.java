@@ -29,6 +29,8 @@ public class MenuServiceTest {
 
     @Test
     public void deleteMenu() {
+        int rs = menuService.deleteMenu(new Menu(12, null, null, null, null), null);
+        System.out.println(rs);
     }
 
     @Test

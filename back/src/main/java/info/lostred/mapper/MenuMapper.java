@@ -12,6 +12,8 @@ public interface MenuMapper {
 
     int deleteById(@Param("menuId") int menuId);
 
+    List<Menu> selectByParentId(@Param("parentId") int parentId);
+
     List<Menu> selectAll();
 
     List<Menu> selectByRoleId(@Param("roleId") int roleId);

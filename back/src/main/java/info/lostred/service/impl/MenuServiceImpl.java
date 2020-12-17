@@ -43,10 +43,14 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public int deleteMenu(Menu menu, Admin actionAdmin) {
+        List<Menu> menus = menuMapper.selectByParentId(menu.getMenuId());
+        for (Menu son : menus) {
+            deleteMenu(son, actionAdmin);
+        }
         int rs = menuMapper.deleteById(menu.getMenuId());
         Log log = new Log();
         log.setAdmin(actionAdmin);
-        log.setOperation("删除菜单");
+        log.setOperation("删除菜单" + menu.getMenuName());
         log.setTime(new Date());
         logMapper.insert(log);
         return rs;
