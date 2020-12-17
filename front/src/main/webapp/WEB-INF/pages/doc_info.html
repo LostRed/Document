@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
+    <title>文档详情</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="static/css/main.css"/>
+    <link rel="stylesheet" href="static/css/mobile.css"/>
+    <link rel="stylesheet" href="static/css/doc_info.css"/>
+</head>
+<body>
+<div id="header" class="hidden-xs">
+    <nav class="navbar" role="navigation">
+        <div class="container">
+            <!-- 导航头部 -->
+            <div class="navbar-header">
+                <!-- 品牌名称或logo -->
+                <a class="navbar-brand" href="main">卓跃文档分享系统</a>
+            </div>
+            <!-- 导航项目 -->
+            <div class="collapse navbar-collapse navbar-collapse-example">
+                <!-- 右侧的导航项目 -->
+                <ul id="right-list" class="nav navbar-nav navbar-right">
+                    <li><a href="main">文档列表</a></li>
+                    <li><a href="register">注册</a></li>
+                    <li><a href="login">登录</a></li>
+                </ul>
+            </div><!-- END .navbar-collapse -->
+        </div>
+    </nav>
+</div>
+<div id="box" class="hidden-xs">
+    <div id="pc" class="container">
+
+
+    </div>
+</div>
+<div id="footer" class="hidden-xs">
+    版权&copy; 卓跃教育 2019-2020
+</div>
+<div id="mobile" class="container visible-xs">
+
+
+</div>
+<div class="visible-xs">
+    <div id="mobile-nav" class="container-fluid">
+        <div class="row">
+            <a href="main" class="col-xs-4">
+                <div>
+                    <i class="icon icon-home"></i>
+                    <br>首页
+                </div>
+            </a>
+            <a id="download" class="col-xs-8 active" onclick="doDownload()"><i
+                    class="icon icon-download"></i>立即下载</a>
+        </div>
+    </div>
+</div>
+<div class="visible-xs">
+    <div id="back">
+        <a href="main">
+            <i class="icon icon-chevron-left"></i>
+        </a>
+    </div>
+</div>
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/doc_info.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="static/css/iframe.css"/>
+</head>
+<body>
+<h2 class="text-center">权限管理</h2>
+<div class="container">
+    <div class="row">
+        <div class="input col-xs-4">
+            <div class="input-group">
+                <span class="input-group-addon">请选择角色</span>
+                <select id="role-list" class="form-control">
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="container">
+            <div id="menus">
+
+            </div>
+            <div class="row">
+                <div class="col-xs-1">
+                    <button class="btn btn-primary" type="button" onclick="save()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/Access.class.js"></script>
+<script src="static/js/perm.js"></script>
+</body>
+</html>

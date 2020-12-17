@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理系统 - 首页</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="static/css/main.css"/>
+</head>
+<body>
+<div id="header">
+    <nav class="navbar-inverse" role="navigation">
+        <div class="container-fluid">
+            <!-- 导航头部 -->
+            <div class="navbar-header">
+                <!-- 品牌名称或logo -->
+                <a class="navbar-brand" href="#">文档管理系统</a>
+            </div>
+            <!-- 导航项目 -->
+            <div class="collapse navbar-collapse navbar-collapse-example">
+                <!-- 右侧的导航项目 -->
+                <ul id="right-list" class="nav navbar-nav navbar-right">
+                    <li><a href="#">欢迎回来，XXX</a></li>
+                    <li><a href="#">退出</a></li>
+                </ul>
+            </div><!-- END .navbar-collapse -->
+        </div>
+    </nav>
+</div>
+<div id="left">
+    <nav class="menu" data-ride="menu" style="width: 200px">
+        <ul id="treeMenu" class="tree tree-menu " data-ride="tree" data-animate="true">
+
+        </ul>
+    </nav>
+</div>
+<div id="main">
+    <iframe id="iframe" name="iframe">
+    </iframe>
+</div>
+<div id="footer">
+    版权&copy; 卓跃教育 2019-2020
+</div>
+
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="static/js/header.js"></script>
+<script src="static/js/main.js"></script>
+</body>
+</html>

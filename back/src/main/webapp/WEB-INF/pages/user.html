@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="dist/lib/datetimepicker/datetimepicker.min.css">
+    <link rel="stylesheet" href="static/css/iframe.css"/>
+    <link rel="stylesheet" href="static/css/form.css"/>
+</head>
+<body>
+<h2 class="text-center">用户管理</h2>
+<div class="container">
+    <div class="row">
+        <div class="input col-xs-3">
+            <div class="input-group">
+                <span class="input-group-addon">用户名</span>
+                <input id="username" type="text" class="form-control" placeholder="用户名">
+            </div>
+        </div>
+        <div class="input col-xs-3">
+            <div class="input-group">
+                <span class="input-group-addon">手机号</span>
+                <input id="mobilePhone" type="text" class="form-control" placeholder="手机号">
+            </div>
+        </div>
+        <div class="input col-xs-3">
+            <div class="input-group">
+                <span class="input-group-addon">性别</span>
+                <div id="sex" class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" name="sex" value="男"> 男
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="sex" value="女"> 女
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="input col-xs-2">
+            <div class="input-group">
+                <span class="input-group-addon">学历</span>
+                <select id="edu" class="form-control">
+
+                </select>
+            </div>
+        </div>
+        <div class="input col-xs-1 text-right">
+            <button class="btn btn-primary" type="button" onclick="search()"><i class="icon icon-search"></i></button>
+        </div>
+    </div>
+    <table id="table" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>手机号码</th>
+            <th>性别</th>
+            <th>学历</th>
+            <th>职业</th>
+            <th>email</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="data">
+
+        </tbody>
+    </table>
+    <div class="text-right">
+        <ul id="pager" class="pager" data-ride="pager" data-page="1" data-rec-total="12" data-max-nav-count="5"
+            data-elements="prev_icon,nav,next_icon"></ul>
+    </div>
+</div>
+<div class="modal fade" id="update">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改用户</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">姓名</span>
+                    <input id="update-name" type="text" class="form-control" placeholder="请输入姓名">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">性别</span>
+                    <div id="update-sex" class="form-control">
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="男"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="女"> 女
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">手机</span>
+                    <input id="update-mobilePhone" type="text" class="form-control" placeholder="请输入手机号">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">邮箱</span>
+                    <input id="update-email" type="text" class="form-control" placeholder="请输入邮箱">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">学历</span>
+                    <select id="update-edu" class="form-control">
+
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">职业</span>
+                    <select id="update-prof" class="form-control">
+
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateCommit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="dist/lib/datetimepicker/datetimepicker.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/iframe.js"></script>
+<script src="static/js/user.js"></script>
+</body>
+</html>

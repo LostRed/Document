@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.LogMapper">
+    <!--映射-->
+    <resultMap id="logResultMap" type="log">
+        <id property="logId" column="log_id"/>
+        <result property="time" column="time"/>
+        <result property="operation" column="operation"/>
+        <association property="user" column="user_id" javaType="user" resultMap="userResultMap"/>
+        <association property="admin" column="admin_id" javaType="admin" resultMap="adminResultMap"/>
+    </resultMap>
+    <resultMap id="userResultMap" type="user">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="user_username"/>
+    </resultMap>
+    <resultMap id="adminResultMap" type="admin">
+        <id property="adminId" column="admin_id"/>
+        <result property="username" column="admin_username"/>
+    </resultMap>
+
+    <!--查询条件-->
+    <sql id="selectCondition">
+        <where>
+            <if test="conditions.startTime!=null">
+                l.time &gt; #{conditions.startTime}
+            </if>
+            <if test="conditions.endTime!=null">
+                and l.time &lt; #{conditions.endTime}
+            </if>
+            <if test="conditions.username!=null and conditions.username!=''">
+                and (u.username like #{conditions.username} or a.username like #{conditions.username})
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="log">
+        insert into t_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            log_id,
+            <if test="user != null">user_id,</if>
+            <if test="admin != null">admin_id,</if>
+            <if test="operation != null">operation,</if>
+            <if test="time != null">time</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            seq_t_log.nextval,
+            <if test="user != null">#{user.userId},</if>
+            <if test="admin != null">#{admin.adminId},</if>
+            <if test="operation != null">#{operation},</if>
+            <if test="time != null">#{time}</if>
+        </trim>
+    </insert>
+
+    <select id="countByCondition" parameterType="map" resultType="int">
+        select count(log_id) from t_log l
+        left join t_admin a on l.admin_id = a.admin_id
+        left join t_user u on l.user_id = u.user_id
+        <include refid="selectCondition"/>
+    </select>
+
+    <select id="pageSelectByCondition" parameterType="map" resultMap="logResultMap">
+        select *
+        from (select rownum as rn, t.*
+        from (
+        select
+        l.log_id,l.operation, l.time,
+        a.admin_id, a.username as admin_username,
+        u.user_id,u.username as user_username
+        from t_log l
+        left join t_admin a on l.admin_id = a.admin_id
+        left join t_user u on l.user_id = u.user_id
+        <include refid="selectCondition"/>
+        order by time desc
+        ) t
+        )
+        where rn &gt; #{start}
+        and rn &lt;= #{end}
+    </select>
+</mapper>

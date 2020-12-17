@@ -1,0 +1,75 @@
+html, body {
+    height: 100%;
+}
+
+#box {
+    padding: 20px 0;
+    min-height: calc(100% - 120px);
+}
+
+#header {
+    height: 60px;
+    user-select: none;
+    z-index: 1;
+}
+
+.navbar-brand {
+    float: left;
+    height: 60px;
+    padding: 10px 15px;
+    font-size: 16px;
+    line-height: 40px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 40px;
+}
+
+.navbar {
+    border-radius: 0;
+}
+
+#search {
+    width: 600px;
+    max-width: 90%;
+    margin: 20px auto;
+}
+
+#myNiceCarousel {
+    margin: 20px 0;
+}
+
+.main {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main .row a {
+    color: black;
+    text-decoration: none;
+}
+
+.main .row a:hover .panel {
+    box-shadow: 3px 3px 10px #888;
+}
+
+.main .row a:hover {
+    color: #145ccd;
+}
+
+#footer {
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    color: #ddd;
+    background-color: #312c2c;
+    user-select: none;
+}

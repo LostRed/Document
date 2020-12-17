@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.EduMapper">
+    <select id="selectAll" resultType="edu">
+    	select * from t_edu
+    </select>
+</mapper>

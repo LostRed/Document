@@ -1,0 +1,35 @@
+#mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    user-select: none;
+    z-index: 10;
+    background-color: white;
+}
+
+#mobile-nav .row {
+    display: flex;
+    justify-content: space-between;
+}
+
+#mobile-nav a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 50px;
+    color: #666;
+    text-align: center;
+    text-decoration: none;
+}
+
+#mobile-nav a.active {
+    color: white;
+    background: #3280fc;
+}
+
+#mobile-nav a.focus {
+    color: white;
+    background: #3280fc;
+}

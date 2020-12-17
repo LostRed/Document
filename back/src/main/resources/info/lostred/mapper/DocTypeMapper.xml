@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.DocTypeMapper">
+    <!--映射-->
+    <resultMap id="docTypeResultMap" type="docType">
+        <id property="typeId" column="type_id"/>
+        <result property="typeName" column="type_name"/>
+        <result property="uploadPoint" column="upload_point"/>
+        <association property="state" column="state_id" javaType="state" resultMap="stateResultMap"/>
+    </resultMap>
+    <resultMap id="stateResultMap" type="state">
+        <id property="stateId" column="state_id"/>
+        <result property="stateName" column="state_name"/>
+        <result property="stateType" column="state_type"/>
+    </resultMap>
+
+
+    <!--接口方法-->
+    <insert id="insert" parameterType="docType">
+        insert into t_doc_type (type_id, type_name, upload_point, state_id)
+        values (seq_t_doc_type.nextval, #{typeName}, #{uploadPoint}, #{state.stateId})
+    </insert>
+
+    <update id="update" parameterType="docType">
+        update t_doc_type
+        <set>
+            <if test="typeName!=null">
+                type_name = #{typeName},
+            </if>
+            <if test="uploadPoint!=null">
+                upload_point = #{uploadPoint},
+            </if>
+            <if test="state!=null">
+                state_id = #{state.stateId},
+            </if>
+        </set>
+        where type_id = #{typeId}
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from t_doc_type
+        where type_id = #{typeId}
+    </delete>
+
+    <select id="selectAll" resultMap="docTypeResultMap">
+        select dt.type_id,
+               dt.type_name,
+               dt.upload_point,
+               s.state_id,
+               s.state_name,
+               s.state_type
+        from t_doc_type dt
+                 left join t_state s on s.state_id = dt.state_id
+    </select>
+</mapper>

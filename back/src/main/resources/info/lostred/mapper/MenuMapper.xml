@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.MenuMapper">
+
+    <insert id="insert" parameterType="menu">
+        insert into t_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            menu_id,
+            <if test="menuName != null">menu_name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="iconClass != null">icon_class,</if>
+            <if test="url != null">url</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            seq_t_menu.nextval,
+            <if test="menuName != null">#{menuName},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="iconClass != null">#{iconClass},</if>
+            <if test="url != null">#{url}</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="menu">
+        update t_menu
+        <set>
+            <if test="menuName!=null">menu_name = #{menuName},</if>
+            <if test="parentId!=null">parent_id = #{parentId},</if>
+            <if test="iconClass!=null">icon_class = #{iconClass},</if>
+            <if test="url!=null">url = #{url}</if>
+        </set>
+        where menu_id = #{menuId}
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from t_menu
+        where menu_id = #{menuId}
+    </delete>
+
+    <select id="selectAll" resultType="menu">
+        select *
+        from t_menu
+    </select>
+
+    <select id="selectByRoleId" resultType="menu">
+        select m.menu_id, m.menu_name, m.parent_id, m.icon_class, m.url
+        from t_perm p
+                 left join t_menu m on p.menu_id = m.menu_id
+                 left join t_role r on p.role_id = r.role_id
+        where p.role_id = ${roleId}
+    </select>
+</mapper>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员管理</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="static/css/iframe.css"/>
+    <link rel="stylesheet" href="static/css/form.css"/>
+</head>
+<body>
+<h2 class="text-center">管理员管理</h2>
+<div class="container">
+    <div class="row">
+        <div class="input col-xs-3">
+            <div class="input-group">
+                <span class="input-group-addon">用户名</span>
+                <input id="username" type="text" class="form-control" placeholder="用户名">
+            </div>
+        </div>
+        <div class="input col-xs-1">
+            <button class="btn btn-primary" type="button" onclick="search()">搜索</button>
+        </div>
+        <div class="input col-xs-8 text-right">
+            <button id="btn" class="btn btn-primary" type="button"
+                    data-moveable="inside" data-toggle="modal" data-target="#insert" onclick="resetForm()">添加新管理员
+            </button>
+        </div>
+    </div>
+    <table id="table" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>真实姓名</th>
+            <th>角色</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="data">
+
+        </tbody>
+    </table>
+    <div class="text-right">
+        <ul id="pager" class="pager" data-ride="pager" data-page="1" data-rec-total="0" data-max-nav-count="5"
+            data-elements="prev_icon,nav,next_icon"></ul>
+    </div>
+</div>
+<div class="modal fade" id="insert">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">新增管理员</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">用户</span>
+                    <input id="insert-username" type="text" class="form-control" placeholder="请输入用户名，不能小于6位">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">密码</span>
+                    <input id="insert-password" type="password" class="form-control" placeholder="请输入密码，不能小于6位">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">姓名</span>
+                    <input id="insert-name" type="text" class="form-control" placeholder="请输入姓名">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">角色</span>
+                    <select id="insert-role" class="form-control">
+
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="insertCommit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="update">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改管理员</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">姓名</span>
+                    <input id="update-name" type="text" class="form-control" placeholder="请输入姓名">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">角色</span>
+                    <select id="update-role" class="form-control">
+
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateCommit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/admin.js"></script>
+</body>
+</html>

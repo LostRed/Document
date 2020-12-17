@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.DownloadRecordMapper">
+    <!--映射-->
+    <resultMap id="downloadRecordMap" type="downloadRecord">
+        <id property="recordId" column="record_id"/>
+        <result property="downloadTime" column="download_time"/>
+        <association property="user" column="user_id" javaType="user" resultMap="userResultMap"/>
+        <association property="doc" column="doc_id" javaType="doc" resultMap="docResultMap"/>
+    </resultMap>
+    <resultMap id="userResultMap" type="user">
+        <id property="userId" column="uu_user_id"/>
+        <result property="username" column="username"/>
+    </resultMap>
+    <resultMap id="uploadUserResultMap" type="user">
+        <id property="userId" column="uu_user_id"/>
+        <result property="username" column="username"/>
+    </resultMap>
+    <resultMap id="docResultMap" type="doc">
+        <id property="docId" column="doc_id"/>
+        <result property="docTitle" column="doc_title"/>
+        <result property="docCover" column="doc_cover"/>
+        <result property="downloadTotal" column="download_total"/>
+        <result property="downloadPoint" column="download_point"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="docDesc" column="doc_desc"/>
+        <association property="docType" column="doc_type_id" javaType="docType" resultMap="docTypeResultMap"/>
+        <association property="uploadUser" column="upload_user_id" javaType="user" resultMap="uploadUserResultMap"/>
+    </resultMap>
+    <resultMap id="docTypeResultMap" type="docType">
+        <id property="typeId" column="type_id"/>
+        <result property="typeName" column="type_name"/>
+        <result property="uploadPoint" column="upload_point"/>
+    </resultMap>
+
+    <!--查询条件-->
+    <sql id="selectCondition">
+        <where>
+            <if test="conditions.userId!=null and conditions.userId!=''">
+                dr.user_id = #{conditions.userId}
+            </if>
+            <if test="conditions.docTitle!=null and conditions.docTitle!=''">
+                and d.doc_title like #{conditions.docTitle}
+            </if>
+            <if test="conditions.docTypeId!=null and conditions.docTypeId!=''">
+                and dt.type_id = #{conditions.docTypeId}
+            </if>
+            <if test="conditions.startTime!=null">
+                and dr.download_time &gt; #{conditions.startTime}
+            </if>
+            <if test="conditions.endTime!=null">
+                and dr.download_time &lt; #{conditions.endTime}
+            </if>
+        </where>
+    </sql>
+
+    <!--接口方法-->
+    <insert id="insert">
+        insert into t_download_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            record_id,
+            <if test="user != null">user_id,</if>
+            <if test="doc != null">doc_id,</if>
+            <if test="downloadTime != null">download_time</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            seq_t_download_record.nextval,
+            <if test="user != null">#{user.userId},</if>
+            <if test="doc != null">#{doc.docId},</if>
+            <if test="downloadTime != null">#{downloadTime}</if>
+        </trim>
+    </insert>
+
+    <select id="countByUserIdAndDocId" resultType="int">
+        select count(record_id)
+        from t_download_record
+        where user_id = #{userId}
+          and doc_id = #{docId}
+    </select>
+
+    <select id="countByCondition" parameterType="map" resultType="int">
+        select count(record_id) from t_download_record dr
+        left join t_doc d on d.doc_id = dr.doc_id
+        left join t_doc_type dt on dt.type_id = d.doc_type_id
+        left join t_user uu on uu.user_id = d.upload_user_id
+        <include refid="selectCondition"/>
+    </select>
+
+    <select id="pageSelectByCondition" parameterType="map" resultMap="downloadRecordMap">
+        select * from (
+        select
+        rownum as rn,
+        dr.record_id,
+        dr.user_id as ud_user_id,
+        dr.download_time,
+        d.doc_id,
+        d.doc_title,
+        d.doc_cover,
+        d.download_total,
+        d.download_point,
+        d.upload_time,
+        d.doc_desc,
+        dt.type_id,
+        dt.type_name,
+        uu.user_id as uu_user_id,
+        uu.username
+        from
+        t_download_record dr
+        left join t_doc d on d.doc_id = dr.doc_id
+        left join t_doc_type dt on dt.type_id = d.doc_type_id
+        left join t_user uu on uu.user_id = d.upload_user_id
+        <include refid="selectCondition"/>
+        ) where rn &gt; #{start} and rn &lt;= #{end}
+    </select>
+</mapper>

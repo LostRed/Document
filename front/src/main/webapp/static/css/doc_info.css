@@ -1,0 +1,48 @@
+.content-wrapper {
+    margin: 20px 0;
+    padding: 20px 10px;
+    border: 1px solid lightgray;
+}
+
+.doc-desc h2 {
+    margin: 5px;
+}
+
+.doc-desc > div {
+    margin: 10px 0;
+}
+
+.doc-desc > div > p {
+    margin: 5px;
+}
+
+.doc-point {
+    padding: 5px;
+    background-color: #f1f4fd;
+}
+
+.doc-info {
+    margin: 0;
+}
+
+#download {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+#back {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 20px;
+    left: 20px;
+    height: 40px;
+    width: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50px;
+}
+
+#back a {
+    color: white;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.ParamMapper">
+
+    <insert id="insert">
+        insert into t_param (param_id, param_name, param_value)
+        values (seq_t_perm.nextval, #{paramName}, #{paramValue})
+    </insert>
+
+    <update id="update">
+        update t_param
+        set param_name  = #{paramName},
+            param_value = #{paramValue}
+        where param_id = #{paramId}
+    </update>
+
+    <select id="selectByParamName" resultType="Param">
+        select *
+        from t_param
+        where param_name = #{paramName}
+    </select>
+</mapper>

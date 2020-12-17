@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
+    <title>个人中心</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="dist/lib/datetimepicker/datetimepicker.min.css"/>
+    <link rel="stylesheet" href="dist/lib/uploader/zui.uploader.min.css"/>
+    <link rel="stylesheet" href="static/css/iframe.css"/>
+    <link rel="stylesheet" href="static/css/main.css"/>
+    <link rel="stylesheet" href="static/css/mobile.css"/>
+    <link rel="stylesheet" href="static/css/personal.css"/>
+</head>
+<body>
+<div id="header" class="hidden-xs">
+    <nav class="navbar" role="navigation">
+        <div class="container">
+            <!-- 导航头部 -->
+            <div class="navbar-header">
+                <!-- 品牌名称或logo -->
+                <a class="navbar-brand" href="main">卓跃文档分享系统</a>
+            </div>
+            <!-- 导航项目 -->
+            <div class="collapse navbar-collapse navbar-collapse-example">
+                <!-- 右侧的导航项目 -->
+                <ul id="right-list" class="nav navbar-nav navbar-right">
+                    <li><a href="main">文档列表</a></li>
+                    <li><a href="personal">个人中心</a></li>
+                    <li><a>欢迎回来，XXX</a></li>
+                </ul>
+            </div><!-- END .navbar-collapse -->
+        </div>
+    </nav>
+</div>
+<div id="box">
+    <div class="container">
+        <div class="myNav row hidden-xs">
+            <div class="col-xs-12">
+                <ul class="nav nav-primary nav-justified">
+                    <li class="active"><a id="myInfo" data-tab href="#tab2Content1" data-toggle="tab"
+                                          onclick="myInfo()">我的信息</a></li>
+                    <li><a id=" uploadHistory" data-tab href="#tab2Content2" data-toggle="tab"
+                           onclick="uploadHistory()">文档上传</a></li>
+                    <li><a id="downloadHistory" data-tab href="#tab2Content3" data-toggle="tab"
+                           onclick="downloadHistory()">下载历史</a></li>
+                    <li><a id="myPoint" data-tab href="#tab2Content4" data-toggle="tab"
+                           onclick="myPoint()">我的积分</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="tab2Content1">
+                <h2>我的信息</h2>
+                <table id="info" class="table table-borderless table-auto">
+
+                </table>
+                <button class="btn btn-primary" data-moveable="inside" data-toggle="modal"
+                        data-target="#update"
+                        onclick="updateUser()">修改
+                </button>
+            </div>
+            <div class="tab-pane fade" id="tab2Content2">
+                <div class="row">
+                    <div class="input col-xs-12 col-sm-6 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">上传时间</span>
+                            <input id="upload-startTime" type="text" class="form-control form-date" placeholder="选择一个日期"
+                                   readonly="readonly">
+                            <span class="input-group-addon">至</span>
+                            <input id="upload-endTime" type="text" class="form-control form-date" placeholder="选择一个日期"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-6 col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">文档类型</span>
+                            <select id="upload-docType" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-6 col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">审核状态</span>
+                            <select id="state" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-6 col-md-1 text-right">
+                        <button class="btn btn-primary" type="button" onclick="searchDoc()">搜索</button>
+                    </div>
+                    <div class="input col-xs-12 col-sm-12 col-md-2 text-right">
+                        <button class="btn btn-success" type="button" data-moveable="inside" data-toggle="modal"
+                                data-target="#uploadDoc">上传新文档
+                        </button>
+                    </div>
+                </div>
+                <table id="upload-table" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>文档标题</th>
+                        <th>文档封面</th>
+                        <th class="hidden-xs">上传时间</th>
+                        <th class="hidden-xs">下载积分</th>
+                        <th class="hidden-xs">文档类型</th>
+                        <th>审核状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <ul id="pager1" class="pager" data-ride="pager" data-page="1" data-rec-total="12"
+                        data-max-nav-count="5"
+                        data-elements="prev_icon,nav,next_icon"></ul>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+            <div class="tab-pane fade" id="tab2Content3">
+                <div class="row">
+                    <div class="input col-xs-12 col-sm-6 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">下载时间</span>
+                            <input id="download-startTime" type="text" class="form-control form-date"
+                                   placeholder="选择一个日期"
+                                   readonly="readonly">
+                            <span class="input-group-addon">至</span>
+                            <input id="download-endTime" type="text" class="form-control form-date" placeholder="选择一个日期"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-6 col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">文档标题</span>
+                            <input id="docTitle" type="text" class="form-control form-text" placeholder="请输入文档标题">
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-6 col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-addon">文档类型</span>
+                            <select id="download-docType" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-6 col-md-1 text-right">
+                        <button class="btn btn-primary" type="button" onclick="searchDownloadRecord()">搜索</button>
+                    </div>
+                    <div class="input col-xs-12 col-sm-12 col-md-2 text-right">
+                        <a href="main" class="btn btn-success" type="button">去下载</a>
+                    </div>
+                </div>
+                <table id="download-table" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>文档标题</th>
+                        <th>文档封面</th>
+                        <th class="hidden-xs">上传者</th>
+                        <th class="hidden-xs">下载时间</th>
+                        <th class="hidden-xs">下载积分</th>
+                        <th class="hidden-xs">文档类型</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <ul id="pager2" class="pager" data-ride="pager" data-page="1" data-rec-total="12"
+                        data-max-nav-count="5"
+                        data-elements="prev_icon,nav,next_icon"></ul>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+            <div class="tab-pane fade" id="tab2Content4">
+                <div class="row">
+                    <div class="input col-xs-12 col-sm-6 col-md-7">
+                        <div class="input-group">
+                            <span class="input-group-addon">发生时间</span>
+                            <input id="occur-startTime" type="text" class="form-control form-date" placeholder="选择一个日期"
+                                   readonly="readonly">
+                            <span class="input-group-addon">至</span>
+                            <input id="occur-endTime" type="text" class="form-control form-date" placeholder="选择一个日期"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-6 col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">变动类型</span>
+                            <select id="type" class="form-control">
+                                <option value="">全部</option>
+                                <option value="增加">增加</option>
+                                <option value="扣除">扣除</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input col-xs-12 col-sm-12 col-md-2 text-right">
+                        <button class="btn btn-primary" type="button" onclick="searchPointRecord()">搜索</button>
+                    </div>
+                </div>
+                <table id="point-table" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>发生时间</th>
+                        <th>发生事件</th>
+                        <th>增加/扣除</th>
+                        <th>积分数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <ul id="pager3" class="pager" data-ride="pager" data-page="1" data-rec-total="12"
+                        data-max-nav-count="5"
+                        data-elements="prev_icon,nav,next_icon"></ul>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer" class="hidden-xs">
+    版权&copy; 卓跃教育 2019-2020
+</div>
+<div class="visible-xs">
+    <div id="mobile-nav" class="container-fluid">
+        <div class="row">
+            <a href="main">
+                <div>
+                    <i class="icon icon-home"></i><br>首页
+                </div>
+            </a>
+            <a onclick="uploadHistory()" data-target="#tab2Content2" data-toggle="tab">
+                <div>
+                    <i class="icon icon-upload"></i><br>上传
+                </div>
+            </a>
+            <a onclick="downloadHistory()" data-target="#tab2Content3" data-toggle="tab">
+                <div>
+                    <i class="icon icon-download"></i><br>下载
+                </div>
+            </a>
+            <a onclick="myPoint()" data-target="#tab2Content4" data-toggle="tab">
+                <div>
+                    <i class="icon icon-heart"></i><br>积分
+                </div>
+            </a>
+            <a onclick="myInfo()" class="active" data-target="#tab2Content1" data-toggle="tab">
+                <div>
+                    <i class="icon icon-user"></i><br>我的
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="update">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">姓名</span>
+                    <input id="update-name" type="text" class="form-control" placeholder="请输入姓名">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">性别</span>
+                    <div id="update-sex" class="form-control">
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="男"> 男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="女"> 女
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">手机</span>
+                    <input id="update-mobilePhone" type="text" class="form-control" placeholder="请输入手机号">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">邮箱</span>
+                    <input id="update-email" type="text" class="form-control" placeholder="请输入邮箱">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">学历</span>
+                    <select id="update-edu" class="form-control">
+
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-addon">职业</span>
+                    <select id="update-prof" class="form-control">
+
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateCommit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="uploadDoc">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">上传新文档</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">文档标题</span>
+                    <input id="uploadDoc-docTitle" type="text" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">下载积分</span>
+                    <input id="uploadDoc-downloadPoint" type="text" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">文档描述</span>
+                    <textarea id="uploadDoc-docDesc" class="form-control"></textarea>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">上传封面</span>
+                    <input type="file" id="cover" class="form-control"/>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">上传文档</span>
+                    <input type="file" id="file" class="form-control"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadDoc()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="docInfo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">文档信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">文档标题</span>
+                    <input id="docInfo-docTitle" type="text" class="form-control" readonly="readonly">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">文档类型</span>
+                    <input id="docInfo-docType" type="text" class="form-control" readonly="readonly">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">下载积分</span>
+                    <input id="docInfo-downloadPoint" type="text" class="form-control" readonly="readonly">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">下载时间</span>
+                    <input id="docInfo-downloadTime" type="text" class="form-control" readonly="readonly">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">上传用户</span>
+                    <input id="docInfo-uploadUser" type="text" class="form-control" readonly="readonly">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">文档描述</span>
+                    <textarea id="docInfo-docDesc" class="form-control" readonly="readonly"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="dist/lib/datetimepicker/datetimepicker.min.js"></script>
+<script src="dist/lib/uploader/zui.uploader.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/iframe.js"></script>
+<script src="static/js/personal.js"></script>
+<script src="static/js/my_info.js"></script>
+<script src="static/js/upload_history.js"></script>
+<script src="static/js/download_history.js"></script>
+<script src="static/js/my_point.js"></script>
+</body>
+</html>

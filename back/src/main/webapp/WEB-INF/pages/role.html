@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="static/css/iframe.css"/>
+    <link rel="stylesheet" href="static/css/form.css"/>
+</head>
+<body>
+
+<h2 class="text-center">角色管理</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="input col-xs-12 text-right">
+            <button class="btn btn-primary" type="button" data-moveable="inside" data-toggle="modal"
+                    data-target="#insert" onclick="resetForm()">添加角色
+            </button>
+        </div>
+    </div>
+    <table id="table" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>角色名称</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="data">
+
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="insert">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">新增角色</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">角色名</span>
+                    <input id="insert-roleName" type="text" class="form-control" placeholder="请输入角色名">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="insertCommit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="update">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">关闭</span></button>
+                <h4 class="modal-title">修改角色</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">角色名</span>
+                    <input id="update-roleName" type="text" class="form-control" placeholder="请输入角色名">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateCommit()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/role.js"></script>
+</body>
+</html>

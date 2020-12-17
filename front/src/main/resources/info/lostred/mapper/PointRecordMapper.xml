@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.PointRecordMapper">
+    <!--映射-->
+    <resultMap id="pointRecordMap" type="pointRecord">
+        <id property="recordId" column="record_id"/>
+        <result property="name" column="name"/>
+        <result property="point" column="point"/>
+        <result property="type" column="type"/>
+        <result property="time" column="time"/>
+        <!--        <association property="user" column="user_id" javaType="user" resultMap="userResultMap"/>-->
+    </resultMap>
+    <!--    <resultMap id="userResultMap" type="user">-->
+    <!--        <id property="userId" column="uu_user_id"/>-->
+    <!--        <result property="username" column="username"/>-->
+    <!--    </resultMap>-->
+
+    <!--查询条件-->
+    <sql id="selectCondition">
+        <where>
+            <if test="conditions.userId!=null and conditions.userId!=''">
+                user_id = #{conditions.userId}
+            </if>
+            <if test="conditions.type!=null and conditions.type!=''">
+                and type = #{conditions.type}
+            </if>
+            <if test="conditions.startTime!=null">
+                and time &gt; #{conditions.startTime}
+            </if>
+            <if test="conditions.endTime!=null">
+                and time &lt; #{conditions.endTime}
+            </if>
+        </where>
+    </sql>
+
+    <!--接口方法-->
+    <insert id="insert">
+        insert into t_point_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            record_id,
+            <if test="user != null">user_id,</if>
+            <if test="name != null">name,</if>
+            <if test="point != null">point,</if>
+            <if test="type != null">type,</if>
+            <if test="time != null">time</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            seq_t_point_record.nextval,
+            <if test="user != null">#{user.userId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="point != null">#{point},</if>
+            <if test="type != null">#{type},</if>
+            <if test="time != null">#{time}</if>
+        </trim>
+    </insert>
+
+    <select id="countByCondition" parameterType="map" resultType="int">
+        select count(record_id) from t_point_record
+        <include refid="selectCondition"/>
+    </select>
+
+    <select id="pageSelectByCondition" parameterType="map" resultMap="pointRecordMap">
+        select * from (
+        select
+        rownum as rn,
+        record_id,
+        user_id,
+        name,
+        point,
+        type,
+        time
+        from
+        t_point_record
+        <include refid="selectCondition"/>
+        ) where rn &gt; #{start} and rn &lt;= #{end}
+    </select>
+</mapper>

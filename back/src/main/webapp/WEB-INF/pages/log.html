@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>日志管理</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="dist/lib/datetimepicker/datetimepicker.min.css">
+    <link rel="stylesheet" href="static/css/iframe.css"/>
+
+</head>
+<body>
+<h2 class="text-center">日志管理</h2>
+<div class="container">
+    <div class="row">
+        <div class="input col-xs-7">
+            <div class="input-group">
+                <span class="input-group-addon">上传时间</span>
+                <input id="startTime" type="text" class="form-control form-date" placeholder="选择一个日期"
+                       readonly="readonly">
+                <span class="input-group-addon">至</span>
+                <input id="endTime" type="text" class="form-control form-date" placeholder="选择一个日期"
+                       readonly="readonly">
+            </div>
+        </div>
+        <div class="input col-xs-4">
+            <div class="input-group">
+                <span class="input-group-addon">操作人</span>
+                <input id="username" type="text" class="form-control" placeholder="请输入关键字">
+            </div>
+        </div>
+        <div class="input col-xs-1 text-right">
+            <button class="btn btn-primary" type="button" onclick="search()">搜索</button>
+        </div>
+    </div>
+    <table id="table" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>操作人</th>
+            <th>操作事项</th>
+            <th>操作时间</th>
+        </tr>
+        </thead>
+        <tbody id="data">
+        </tbody>
+    </table>
+    <div class="text-right">
+        <ul id="pager" class="pager" data-ride="pager" data-page="1" data-rec-total="0" data-max-nav-count="5"
+            data-elements="prev_icon,nav,next_icon"></ul>
+    </div>
+</div>
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/lib/datetimepicker/datetimepicker.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="static/js/iframe.js"></script>
+<script src="static/js/log.js"></script>
+</body>
+</html>

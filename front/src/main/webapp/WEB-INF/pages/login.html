@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
+    <title>用户登录</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="static/css/form.css">
+</head>
+<body>
+<div id="box">
+    <div id="page">
+        <div class="container">
+            <h2>用户登录</h2>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-user"></i></span>
+                <input id="username" type="text" class="form-control" placeholder="请输入用户名">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-lock"></i></span>
+                <input id="password" type="password" class="form-control" placeholder="请输入密码">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-picture"></i></span>
+                <input id="captcha" type="text" class="form-control" placeholder="请输入验证码">
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <div id="code-img" class="form-control">
+                    <img src="captcha" alt="验证码" style="width:100px;height: 100%;"/>
+                </div>
+            </div>
+            <button id="login" class="btn btn-block btn-primary" type="button">登录</button>
+            <div class="wrapper">
+                <a href="register">还没有账号？去注册</a>
+                <a href="main">返回首页</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/login.js"></script>
+</body>
+</html>

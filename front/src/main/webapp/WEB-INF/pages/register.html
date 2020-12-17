@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0"/>
+    <title>用户注册</title>
+    <link rel="stylesheet" href="dist/css/zui.min.css"/>
+    <link rel="stylesheet" href="static/css/form.css">
+</head>
+<body>
+<div id="box">
+    <div id="page">
+        <div class="container">
+            <h2>用户注册</h2>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-user"></i></span>
+                <input id="username" type="text" class="form-control" placeholder="请输入用户名，不能小于6位">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-lock"></i></span>
+                <input id="password1" type="password" class="form-control" placeholder="请输入密码，不能小于6位">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-lock"></i></span>
+                <input id="password2" type="password" class="form-control" placeholder="请输再次输入密码">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-phone"></i></span>
+                <input id="mobile-phone" type="text" class="form-control" placeholder="请输入手机号">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon icon-envelope"></i></span>
+                <input id="email" type="text" class="form-control" placeholder="请输入邮箱">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">性别</span>
+                <div class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" name="sex" value="男" checked="checked"/> 男
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="sex" value="女"/> 女
+                    </label>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">学历</span>
+                <select id="edu" class="form-control">
+
+                </select>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">职业</span>
+                <select id="prof" class="form-control">
+
+                </select>
+            </div>
+            <button id="register" class="btn btn-block btn-primary" type="button">立即注册</button>
+            <div class="wrapper">
+                <a href="login">已有帐号，去登录</a>
+                <a href="main">返回首页</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="dist/lib/jquery/jquery-3.4.1.min.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="static/js/register.js"></script>
+</body>
+</html>

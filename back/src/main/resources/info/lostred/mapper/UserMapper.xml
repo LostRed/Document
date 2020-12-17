@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.UserMapper">
+    <!--映射-->
+    <resultMap id="userResultMap" type="user">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="mobilePhone" column="mobile_phone"/>
+        <result property="email" column="email"/>
+        <result property="point" column="point"/>
+        <result property="regTime" column="reg_time"/>
+        <association property="edu" column="edu_id" javaType="edu" resultMap="eduResultMap"/>
+        <association property="state" column="state_id" javaType="state" resultMap="stateResultMap"/>
+        <association property="prof" column="prof_id" javaType="prof" resultMap="profResultMap"/>
+    </resultMap>
+    <resultMap id="eduResultMap" type="edu">
+        <id property="eduId" column="edu_id"/>
+        <result property="eduName" column="edu_name"/>
+    </resultMap>
+    <resultMap id="stateResultMap" type="state">
+        <id property="stateId" column="state_id"/>
+        <result property="stateName" column="state_name"/>
+        <result property="stateType" column="state_type"/>
+    </resultMap>
+    <resultMap id="profResultMap" type="prof">
+        <id property="profId" column="prof_id"/>
+        <result property="profName" column="prof_name"/>
+    </resultMap>
+
+    <!--查询条件-->
+    <sql id="selectCondition">
+        where u.state_id != 6
+        <if test="conditions.username!=null and conditions.username!=''">
+            and ${alias}.username like #{conditions.username}
+        </if>
+        <if test="conditions.mobilePhone!=null and conditions.mobilePhone!=''">
+            and ${alias}.mobile_phone like #{conditions.mobilePhone}
+        </if>
+        <if test="conditions.sex!=null">
+            and ${alias}.sex = #{conditions.sex}
+        </if>
+        <if test="conditions.eduId!=null and conditions.eduId!=''">
+            and ${alias}.edu_Id = #{conditions.eduId}
+        </if>
+    </sql>
+
+    <!--接口方法-->
+    <insert id="insert" parameterType="user">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_id,
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="name != null">name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="mobilePhone != null">mobile_phone,</if>
+            <if test="email != null">email,</if>
+            <if test="edu != null">edu_id,</if>
+            <if test="prof != null">prof_id,</if>
+            <if test="point != null">point,</if>
+            <if test="regTime != null">reg_time,</if>
+            <if test="state != null">state_id</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            seq_t_user.currval,
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="mobilePhone != null">#{mobilePhone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="edu != null">#{edu.eduId},</if>
+            <if test="prof != null">#{prof.profId},</if>
+            <if test="point != null">#{point},</if>
+            <if test="regTime != null">#{regTime},</if>
+            <if test="state != null">#{state.stateId}</if>
+        </trim>
+        <selectKey order="BEFORE" keyProperty="userId" resultType="int">
+            select seq_t_user.nextval from dual
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="user">
+        update t_user
+        <set>
+            <if test="username!=null">username = #{username},</if>
+            <if test="password!=null">password = #{password},</if>
+            <if test="name!=null">name = #{name},</if>
+            <if test="sex!=null">sex = #{sex},</if>
+            <if test="mobilePhone!=null">mobile_phone = #{mobilePhone},</if>
+            <if test="email!=null">email = #{email},</if>
+            <if test="edu!=null">edu_id = #{edu.eduId},</if>
+            <if test="prof!=null">prof_id = #{prof.profId},</if>
+            <if test="point!=null">point = #{point},</if>
+            <if test="state!=null">state_id = #{state.stateId}</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+
+    <select id="countByCondition" parameterType="map" resultType="int">
+        select count(user_id) from t_user u
+        <include refid="selectCondition">
+            <property name="alias" value="u"/>
+        </include>
+    </select>
+
+    <select id="selectByUsername" resultMap="userResultMap">
+        select u.user_id,
+               u.username,
+               u.password,
+               u.name,
+               u.sex,
+               u.mobile_phone,
+               u.email,
+               u.point,
+               u.reg_time,
+               e.edu_id,
+               e.edu_name,
+               s.state_id,
+               s.state_name,
+               s.state_type,
+               p.prof_id,
+               p.prof_name
+        from t_user u
+                 left join t_edu e on e.edu_id = u.edu_id
+                 left join t_state s on s.state_id = u.state_id
+                 left join t_prof p on p.prof_id = u.prof_id
+        where username = #{username}
+    </select>
+
+    <select id="pageSelectByCondition" parameterType="map" resultMap="userResultMap">
+        select * from (
+        select
+        rownum as rn,
+        u.user_id, u.username, u.name, u.sex, u.mobile_phone, u.email, u.point, u.reg_time,
+        e.edu_id,e.edu_name,
+        s.state_id,s.state_name, s.state_type,
+        p.prof_id,p.prof_name
+        from
+        t_user u
+        left join t_edu e on e.edu_id = u.edu_id
+        left join t_state s on s.state_id = u.state_id
+        left join t_prof p on p.prof_id = u.prof_id
+        <include refid="selectCondition">
+            <property name="alias" value="u"/>
+        </include>
+        ) where rn &gt; #{start} and rn &lt;= #{end}
+    </select>
+</mapper>

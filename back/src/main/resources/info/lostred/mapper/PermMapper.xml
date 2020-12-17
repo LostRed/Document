@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.PermMapper">
+
+    <insert id="batchInsert" parameterType="list" useGeneratedKeys="false">
+        insert into t_perm (perm_id, role_id, menu_id)
+        select seq_t_perm.nextval,p.* from (
+        <foreach collection="list" item="perm" separator="union all">
+            SELECT
+            #{perm.roleId},
+            #{perm.menuId}
+            FROM dual
+        </foreach>
+        ) p
+    </insert>
+
+    <delete id="deleteByRoleId">
+        delete
+        from t_perm
+        where role_id = #{roleId}
+    </delete>
+
+    <select id="selectByRoleId" resultType="perm">
+        select *
+        from t_perm
+        where role_id = #{roleId}
+    </select>
+</mapper>

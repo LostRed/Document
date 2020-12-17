@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--包扫描-->
+    <context:component-scan base-package="info.lostred" use-default-filters="false">
+        <!-- 只扫描@Controller -->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--开启mvc注解支持-->
+    <mvc:annotation-driven/>
+    <!--静态资源交给默认的servlet处理-->
+    <mvc:default-servlet-handler/>
+    <!--静态资源-->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    <mvc:resources mapping="/dist/**" location="/dist/"/>
+    <mvc:resources mapping="/layer/**" location="/layer/"/>
+    <mvc:resources mapping="/WEB-INF/pages/**" location="/WEB-INF/pages/"/>
+    <!--视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".html"/>
+    </bean>
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/dist/**"/>
+            <mvc:exclude-mapping path="/layer/**"/>
+            <mvc:exclude-mapping path="/**/*login*"/>
+            <mvc:exclude-mapping path="/**/*Login*"/>
+            <bean class="info.lostred.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

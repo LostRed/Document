@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--引入文档申明-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="info.lostred.mapper.DocMapper">
+    <!--映射-->
+    <resultMap id="docResultMap" type="doc">
+        <id property="docId" column="doc_id"/>
+        <result property="docTitle" column="doc_title"/>
+        <result property="docCover" column="doc_cover"/>
+        <result property="docUrl" column="doc_url"/>
+        <result property="downloadTotal" column="download_total"/>
+        <result property="downloadPoint" column="download_point"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="docDesc" column="doc_desc"/>
+        <association property="docType" column="doc_type_id" javaType="docType" resultMap="docTypeResultMap"/>
+        <association property="uploadUser" column="upload_user_id" javaType="user" resultMap="userResultMap"/>
+        <association property="admin" column="admin_id" javaType="admin" resultMap="adminResultMap"/>
+        <association property="state" column="state_id" javaType="state" resultMap="stateResultMap"/>
+    </resultMap>
+    <resultMap id="docTypeResultMap" type="docType">
+        <id property="typeId" column="type_id"/>
+        <result property="typeName" column="type_name"/>
+        <result property="uploadPoint" column="upload_point"/>
+    </resultMap>
+    <resultMap id="userResultMap" type="user">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="user_username"/>
+    </resultMap>
+    <resultMap id="adminResultMap" type="admin">
+        <id property="adminId" column="admin_id"/>
+        <result property="username" column="admin_username"/>
+    </resultMap>
+    <resultMap id="stateResultMap" type="state">
+        <id property="stateId" column="state_id"/>
+        <result property="stateName" column="state_name"/>
+        <result property="stateType" column="state_type"/>
+    </resultMap>
+
+    <!--联表查询sql-->
+    <sql id="multiTable">
+        select d.doc_id,
+               d.doc_title,
+               d.doc_cover,
+               d.doc_url,
+               d.download_total,
+               d.download_point,
+               d.upload_time,
+               d.audit_time,
+               d.doc_desc,
+               dt.type_id,
+               dt.type_name,
+               dt.upload_point,
+               u.user_id,
+               u.username as user_username,
+               a.admin_id,
+               a.username as admin_username,
+               s.state_id,
+               s.state_name,
+               s.state_type
+        from t_doc d
+                 left join t_doc_type dt on dt.type_id = d.doc_type_id
+                 left join t_state s on s.state_id = d.state_id
+                 left join t_admin a on a.admin_id = d.admin_id
+                 left join t_user u on u.user_id = d.upload_user_id
+    </sql>
+
+    <!--查询条件-->
+    <sql id="selectCondition">
+        <where>
+            <if test="conditions.docTitle!=null and conditions.docTitle!=''">
+                d.doc_title like #{conditions.docTitle}
+            </if>
+            <if test="conditions.username!=null and conditions.username!=''">
+                and u.username like #{conditions.username}
+            </if>
+            <if test="conditions.docTypeId!=null and conditions.docTypeId!=''">
+                and dt.type_id = #{conditions.docTypeId}
+            </if>
+            <if test="conditions.stateId!=null and conditions.stateId!=''">
+                and s.state_id = #{conditions.stateId}
+            </if>
+            <if test="conditions.userId!=null and conditions.userId!=''">
+                and u.user_id = #{conditions.userId}
+            </if>
+            <if test="conditions.startTime!=null">
+                and d.upload_time &gt; #{conditions.startTime}
+            </if>
+            <if test="conditions.endTime!=null">
+                and d.upload_time &lt; #{conditions.endTime}
+            </if>
+        </where>
+    </sql>
+
+    <!--接口方法-->
+    <update id="update" parameterType="doc">
+        update t_doc
+        <set>
+            <if test="docTitle!=null">doc_title = #{docTitle},</if>
+            <if test="docType!=null">doc_type_id = #{docType.typeId},</if>
+            <if test="docCover!=null">doc_cover = #{docCover},</if>
+            <if test="downloadTotal!=null">role_id = #{download_total},</if>
+            <if test="downloadPoint!=null">state_id = #{download_Point}</if>
+            <if test="uploadUser!=null">state_id = #{uploadUser.userId}</if>
+            <if test="uploadTime!=null">state_id = #{uploadTime}</if>
+            <if test="admin!=null">state_id = #{admin.adminId}</if>
+            <if test="auditTime!=null">state_id = #{auditTime}</if>
+            <if test="state!=null">state_id = #{state.stateId}</if>
+            <if test="docDesc!=null">state_id = #{docDesc}</if>
+        </set>
+        where doc_id = #{docId}
+    </update>
+
+    <select id="countByDocTitle" resultType="int">
+        select count(*) from (
+        <include refid="multiTable"/>
+        <include refid="selectCondition"/>
+        )
+    </select>
+
+    <select id="selectById" resultMap="docResultMap">
+        <include refid="multiTable"/>
+        where doc_id = #{docId}
+    </select>
+
+    <select id="selectOrderByField" resultMap="docResultMap">
+        select * from (
+        select t.*,rownum as rn from (
+        <include refid="multiTable"/>
+        <include refid="selectCondition"/>
+        <if test="orderField !=null and orderField != '' ">
+            order by ${orderField} ${orderType}
+        </if>
+        ) t
+        ) where rn &gt; #{start} and rn &lt;= #{end}
+    </select>
+</mapper>
