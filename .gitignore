@@ -4,7 +4,11 @@
 
 # IntelliJ project files
 .idea
-*.iml
 out
 gen
 target
+*.iml
+*.sh
+*.classpath
+*.project
+*.settings
