@@ -26,7 +26,7 @@ public class Log {
         System.out.println(sdf.format(System.currentTimeMillis()) + ":执行成功");
     }
 
-    @AfterReturning("pointCut()")
+    @AfterThrowing("pointCut()")
     public void expect() {
         System.out.println(sdf.format(System.currentTimeMillis()) + ":执行失败");
     }
